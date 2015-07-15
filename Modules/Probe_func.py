@@ -1,6 +1,6 @@
 from PyQt4.QtGui import *
 from re import search
-from os import system,geteuid,getuid
+from os import system,geteuid,getuid,getcwd
 from Core.Settings import frm_Settings
 from subprocess import Popen,PIPE
 from scapy.all import *
@@ -13,14 +13,14 @@ class frm_Probe(QMainWindow):
         super(frm_Probe, self).__init__(parent)
         self.form_widget = frm_PMonitor(self)
         self.setCentralWidget(self.form_widget)
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'About Exit',"Are you sure to quit?", QMessageBox.Yes |
             QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             event.accept()
             if getuid() == 0:
-                system("airmon-ng stop mon0")
+                system("airmon-ng stop wlan0mon")
                 system("clear")
                 self.deleteLater()
             else:
@@ -33,8 +33,8 @@ class frm_PMonitor(QWidget):
         super(frm_PMonitor, self).__init__(parent)
         self.Main = QVBoxLayout()
         self.setWindowTitle("Probe Request wifi Monitor")
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
-        self.interface = "mon0"
+        self.setWindowIcon(QIcon('rsc/icon.png'))
+        self.interface = "wlan0"
         self.probes = []
         self.config = frm_Settings()
         self.loadtheme(self.config.XmlThemeSelected())
@@ -52,7 +52,7 @@ class frm_PMonitor(QWidget):
     def setupGUI(self):
         self.form0 = QFormLayout()
         self.list_probe = QListWidget()
-        self.list_probe.setFixedHeight(400)
+        self.list_probe.setFixedHeight(275)
         self.btn_scan = QPushButton("Scan")
         self.btn_scan.clicked.connect(self.Pro_request)
         self.btn_scan.setIcon(QIcon("rsc/network.png"))
@@ -60,8 +60,13 @@ class frm_PMonitor(QWidget):
         Interfaces = frm_dhcp_Attack()
         n = Interfaces.placa()
         for i,j in enumerate(n):
-            if search("wlan", j):
+            if search("wlan0", j):
                 self.get_placa.addItem(n[i])
+
+        self.logo = QPixmap(getcwd() + "/rsc/peh1.jpg")
+        self.label_imagem = QLabel()
+        self.label_imagem.setPixmap(self.logo)
+        self.form0.addRow(self.label_imagem)
 
         self.time_scan = QComboBox(self)
         self.time_scan.addItem("10s")
@@ -94,7 +99,7 @@ class frm_PMonitor(QWidget):
                 comando = "ifconfig"
                 proc = Popen(comando,stdout=PIPE, shell=True)
                 data = proc.communicate()[0]
-                if search("mon0", data):
+                if search("wlan0", data):
                     sniff(iface=self.interface,prn=self.sniff_probe, count=self.time_control)
                     system("clear")
                 else:
