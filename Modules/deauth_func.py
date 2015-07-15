@@ -4,7 +4,7 @@ from subprocess import Popen,PIPE
 from scapy.all import *
 from Dns_Func import  frm_dhcp_Attack
 import threading
-from os import popen,system,getuid,path,makedirs
+from os import popen,system,getuid,path,makedirs,getcwd
 from re import search,compile,match
 from Core.Settings import frm_Settings
 from Modules.fuc_airodump import  airdump_start,get_network_scan
@@ -14,7 +14,7 @@ class frm_window(QMainWindow):
         self.form_widget = frm_deauth(self)
         self.setCentralWidget(self.form_widget)
         self.setWindowTitle("Deauth Attack wireless Route")
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
         self.config = frm_Settings()
         self.loadtheme(self.config.XmlThemeSelected())
 
@@ -34,7 +34,7 @@ class frm_window(QMainWindow):
         if reply == QMessageBox.Yes:
             event.accept()
             if getuid() == 0:
-                system("airmon-ng stop mon0")
+                system("airmon-ng stop wlan0mon")
                 system("clear")
                 self.deleteLater()
             else:
@@ -46,7 +46,7 @@ class frm_deauth(QWidget):
     def __init__(self, parent=None):
         super(frm_deauth, self).__init__(parent)
         self.Main = QVBoxLayout()
-        self.interface = "mon0"
+        self.interface = "wlan0"
         self.xmlcheck = frm_Settings()
         self.ap_list = []
         self.pacote = []
@@ -89,6 +89,7 @@ class frm_deauth(QWidget):
         for n, key in enumerate(self.data.keys()):
             Headers.append(key)
         self.tables.setHorizontalHeaderLabels(Headers)
+
 
 
         self.linetarget = QLineEdit()
@@ -138,6 +139,12 @@ class frm_deauth(QWidget):
         self.Main.addLayout(self.form1)
         self.Main.addLayout(self.form2)
         self.setLayout(self.Main)
+
+        self.logo = QPixmap(getcwd() + "/rsc/peh4.jpg")
+        self.label_imagem = QLabel()
+        self.label_imagem.setPixmap(self.logo)
+        self.form0.addRow(self.label_imagem)
+
     def scan_diveces_airodump(self):
 	dirpath = "Settings/Dump"
 	if not path.isdir(dirpath):
@@ -179,9 +186,9 @@ class frm_deauth(QWidget):
             comando = "ifconfig"
             proc = Popen(comando,stdout=PIPE, shell=False)
             data = proc.communicate()[0]
-            if search("mon0", data):
+            if search("wlan0", data):
                 dot = 0
-                c = "airmon-ng stop mon0".split()
+                c = "airmon-ng stop wlan0mon".split()
                 Popen(c,stdout=PIPE, shell=False)
                 system("airmon-ng start %s" %(self.get_placa.currentText()))
             else:
@@ -282,7 +289,7 @@ class frm_deauth(QWidget):
 
 
     def mdk3_attacker(self,bssid,args):
-        n  = (popen("""sudo xterm -geometry 75x15-1+200 -T "mdk3 Target: %s" -e mdk3 mon0 %s %s & mdk3=$!"""%(bssid,args,bssid)).read()) + "exit"
+        n  = (popen("""sudo xterm -geometry 75x15-1+200 -T "mdk3 Target: %s" -e mdk3 wlan0 %s %s & mdk3=$!"""%(bssid,args,bssid)).read()) + "exit"
         while n != "dsa":
             if n == "exit":
                 self.attack_OFF()
