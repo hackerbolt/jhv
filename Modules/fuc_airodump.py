@@ -1,7 +1,7 @@
 from BeautifulSoup import BeautifulSoup
 from os import popen
 def airdump_start():
-    get = (popen("""sudo xterm -geometry 85x15-1+250 -T "Scan Networks Airodump-ng" -e airodump-ng mon0 --write \
+    get = (popen("""sudo xterm -geometry 85x15-1+250 -T "Scan Networks Airodump-ng" -e airodump-ng wlan0 --write \
      Settings/Dump/networkdump & airodump=$!""").read()) + "exit"
     while get != "dsa":
         if get == "exit":
