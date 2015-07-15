@@ -4,7 +4,7 @@ from xml.dom import minidom
 class frm_Settings(QDialog):
     def __init__(self, parent = None):
         super(frm_Settings, self).__init__(parent)
-        self.setWindowTitle("Settings 3vilTwinAttacker")
+        self.setWindowTitle("Settings PEH-wifi-attack")
         self.Main = QVBoxLayout()
         self.frm = QFormLayout()
         self.setGeometry(0, 0, 400, 300)
@@ -66,10 +66,10 @@ class frm_Settings(QDialog):
             self.xmlSettings("item3","dnsmasq","True",False)
         if self.theme1.isChecked():
             self.xmlSettings("themes","selected","theme1",False)
-            QMessageBox.information(self,"select theme","You need to restart the app 3viltwinAttacker")
+            QMessageBox.information(self,"select theme","You need to restart the app PEH-wifi-attack")
         elif self.theme2.isChecked():
             self.xmlSettings("themes","selected","theme2",False)
-            QMessageBox.information(self,"select theme","You need to restart the app 3viltwinAttacker")
+            QMessageBox.information(self,"select theme","You need to restart the app PEH-wifi-attack")
         if self.scan1.isChecked():
             self.xmlSettings("advanced","Function_scan","Ping",False)
         elif self.scan2.isChecked():
@@ -97,7 +97,7 @@ class frm_Settings(QDialog):
         self.title1 = QLabel("Configure Dhcp Attacker:")
         self.title2 = QLabel("mdk3 Arguments:")
         self.title3 = QLabel("Configure Scan diveces Attacker:")
-        self.title4 = QLabel("3vilTwinAttacker Themes:")
+        self.title4 = QLabel("PEH-wifi-attack Themes:")
         self.title5 = QLabel("Configure Range ARP Posion:")
 
         self.title6 = QLabel("Thread ScanIP:")
