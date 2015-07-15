@@ -7,7 +7,7 @@ if __name__ == '__main__':
     check_dependencies()
     root = QApplication(argv)
     app = frmControl(None)
-    app.setWindowIcon(QIcon('rsc/icon.ico'))
+    app.setWindowIcon(QIcon('rsc/icon.jpg'))
     app.center()
     app.show()
     root.exec_()
