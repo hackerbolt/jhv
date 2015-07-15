@@ -22,6 +22,7 @@ class frm_Arp(QMainWindow):
         self.form_widget = frm_Arp_Poison(self)
         self.setCentralWidget(self.form_widget)
 
+
 class ScanIPlocal(QThread):
     def __init__(self,parent=None):
         QThread.__init__(self,parent)
@@ -50,7 +51,7 @@ class frm_Arp_Poison(QWidget):
     def __init__(self, parent=None):
         super(frm_Arp_Poison, self).__init__(parent)
         self.setWindowTitle("Arp Posion Attack ")
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
         self.Main = QVBoxLayout()
         self.owd = getcwd()
         self.control = False
@@ -60,6 +61,12 @@ class frm_Arp_Poison(QWidget):
         self.module_network = frm_GetIP()
         self.data = {'IPaddress':[], 'Hostname':[], 'MacAddress':[]}
         self.GUI()
+
+        self.logo = QPixmap(getcwd() + "/rsc/peh08.jpg")
+        self.label_imagem = QLabel()
+        self.label_imagem.setPixmap(self.logo)
+        self.form.addRow(self.label_imagem)
+
 
     def loadtheme(self,theme):
         if theme != "theme2":
@@ -479,7 +486,7 @@ class frm_template(QDialog):
                 sock = urlopen(url).read()
                 self.control = 1
             except URLError, e:
-                QMessageBox.information(self,"Error","Server not found, can't find the server at focebook. " + str(e))
+                QMessageBox.information(self,"Error","Server not found, can't find the server at facebook. " + str(e))
             if self.control != None:
                 if not getuid() == 0:
                     QMessageBox.information(self, "Permission Denied", 'the Tool must be run as root try again.')
