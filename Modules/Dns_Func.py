@@ -20,7 +20,7 @@ class frm_dnsspoof(QMainWindow):
         self.form_widget = frm_dnsAttack(self)
         self.setCentralWidget(self.form_widget)
         self.setWindowTitle("DNS Spoof + Phishing Attack Manager")
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
         self.config = frm_Settings()
         self.loadtheme(self.config.XmlThemeSelected())
 
@@ -77,6 +77,11 @@ class frm_dnsAttack(QWidget):
         self.boxlog.setFixedHeight(100)
         self.input_custom_ip = QLineEdit(self)
         self.input_dns = QLineEdit(self)
+
+        self.logo = QPixmap(getcwd() + "/rsc/hack.jpg")
+        self.label_imagem = QLabel()
+        self.label_imagem.setPixmap(self.logo)
+        self.form.addRow(self.label_imagem)
 
         self.box_login =  QTextEdit(self)
         self.box_login.setFixedHeight(100)
@@ -453,4 +458,3 @@ class frm_dnsAttack(QWidget):
                 return ip[1]
             else:
                 return None
-
