@@ -8,7 +8,7 @@ class frm_datebase(QDialog):
     def __init__(self, parent=None):
         super(frm_datebase, self).__init__(parent)
         self.setWindowTitle("DataBase Manager")
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
         sshFile="Core/dark_style.css"
         with open(sshFile,"r") as fh:
             self.setStyleSheet(fh.read())
