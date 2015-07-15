@@ -13,7 +13,7 @@ class frm_update_attack(QMainWindow):
         self.form_widget = frm_WinSoftUp(self)
         self.setCentralWidget(self.form_widget)
         self.setWindowTitle("Windows Update Attack Generator ")
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
         self.config = frm_Settings()
         self.loadtheme(self.config.XmlThemeSelected())
 
@@ -102,6 +102,12 @@ class frm_WinSoftUp(QWidget):
         self.form.addRow(self.logBox)
         self.Main.addLayout(self.form)
         self.setLayout(self.Main)
+
+        self.logo = QPixmap(getcwd() + "/rsc/peh2.jpg")
+        self.label_imagem = QLabel()
+        self.label_imagem.setPixmap(self.logo)
+        self.form.addRow(self.label_imagem)
+
 
     def stop_attack(self):
         popen("killall xterm")
