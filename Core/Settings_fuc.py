@@ -3,7 +3,7 @@ from xml.dom import minidom
 class frm_Settings(QDialog):
     def __init__(self, parent = None):
         super(frm_Settings, self).__init__(parent)
-        self.setWindowTitle("Settings 3vilTwinAttacker")
+        self.setWindowTitle("Settings PEH-wifi-attack")
         self.Main = QVBoxLayout()
         self.frm = QFormLayout()
         self.setGeometry(0, 0, 400, 300)
