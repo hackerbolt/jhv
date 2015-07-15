@@ -1,7 +1,7 @@
 from PyQt4.QtGui import *
 from scapy.all import *
 import threading
-from os import system,popen,getegid
+from os import system,popen,getegid,getcwd
 from re import search
 from Core.Settings import frm_Settings
 from platform import dist
@@ -14,7 +14,7 @@ class frm_dhcp_main(QMainWindow):
         self.form_widget = frm_dhcp_Attack(self)
         self.setCentralWidget(self.form_widget)
         self.setWindowTitle("DHCP Starvation Attack")
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
 
         self.config = frm_Settings()
         self.loadtheme(self.config.XmlThemeSelected())
@@ -55,6 +55,11 @@ class frm_dhcp_Attack(QWidget):
         self.form.addRow(self.btn_Start_attack, self.btn_Stop_attack)
         self.Main.addLayout(self.form)
         self.setLayout(self.Main)
+
+        self.logo = QPixmap(getcwd() + "/rsc/peh3.jpg")
+        self.label_imagem = QLabel()
+        self.label_imagem.setPixmap(self.logo)
+        self.form.addRow(self.label_imagem)
 
     def D_attack(self):
         if not getegid() == 0:
@@ -166,12 +171,12 @@ def conf_etter(data):
 ############################################################################
 
 ################################
-# microsoft sucks ;)
+# facebook sucks ;)
 # redirect it to www.linux.org
 
-#microsoft.com      A   198.182.196.56
-#*.microsoft.com    A   198.182.196.56
-#www.microsoft.com  PTR 198.182.196.56      # Wildcards in PTR are not allowed
+#facebook.com      A   192.168.1.65
+#*.facebook.com    A   192.168.1.65
+#www.facebook.com  PTR 192.168.1.65      # Wildcards in PTR are not allowed
 
 %s
 
