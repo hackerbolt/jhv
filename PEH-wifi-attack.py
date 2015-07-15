@@ -10,7 +10,7 @@ if __name__ == '__main__':
     if not getuid() == 0:
         app2 = QApplication(argv)
         priv = frm_privelege()
-        priv.setWindowIcon(QIcon('rsc/icon.ico'))
+        priv.setWindowIcon(QIcon('rsc/icon.jpg'))
         priv.setWindowFlags(priv.windowFlags() | Qt.WindowMaximizeButtonHint)
         priv.show()
         exit(app2.exec_())
