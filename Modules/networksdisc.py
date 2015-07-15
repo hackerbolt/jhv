@@ -1,6 +1,6 @@
 #coding: utf-8
 from PyQt4.QtGui import *
-from os import getegid,popen
+from os import getegid,popen,getcwd
 from re import search
 from Core.Settings import frm_Settings
 from scapy.all import *
@@ -10,7 +10,8 @@ class frm_list_IP(QMainWindow):
         super(frm_list_IP, self).__init__(parent)
         self.form_widget = frm_GetIP(self)
         self.setCentralWidget(self.form_widget)
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
+
 
 class frm_GetIP(QWidget):
     def __init__(self, parent=None):
@@ -100,3 +101,8 @@ class frm_GetIP(QWidget):
         self.form0.addRow(self.btn_scan)
         self.Main.addLayout(self.form0)
         self.setLayout(self.Main)
+
+        self.logo = QPixmap(getcwd() + "/rsc/peh6.jpg")
+        self.label_imagem = QLabel()
+        self.label_imagem.setPixmap(self.logo)
+        self.form0.addRow(self.label_imagem)
