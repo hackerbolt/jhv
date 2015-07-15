@@ -1,7 +1,7 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from re import search
-from os import geteuid,popen
+from os import geteuid,popen,getcwd
 from subprocess import Popen,PIPE
 from Core.Settings import frm_Settings
 import subprocess
@@ -15,8 +15,7 @@ class frm_mac_changer(QMainWindow):
 class frm_mac_generator(QWidget):
     def __init__(self, parent=None):
         super(frm_mac_generator, self).__init__(parent)
-        self.setWindowIcon(QIcon('rsc/icon.ico'))
-        self.setWindowIcon(QIcon('Modules/icon.ico'))
+        self.setWindowIcon(QIcon('rsc/icon.png'))
         self.setWindowTitle("MAC Address Generator")
         self.Main = QVBoxLayout()
         self.prefix = [ 0x00, 0xCB, 0x01,0x03 ,\
@@ -94,6 +93,11 @@ class frm_mac_generator(QWidget):
         self.form_mac.addRow(self.btn_save)
         self.Main.addLayout(self.form_mac)
         self.setLayout(self.Main)
+
+        self.logo = QPixmap(getcwd() + "/rsc/peh07.jpg")
+        self.label_imagem = QLabel()
+        self.label_imagem.setPixmap(self.logo)
+        self.form_mac.addRow(self.label_imagem)
 
 class frm_GetIP(QWidget):
     def __init__(self, parent=None):
